@@ -29,6 +29,52 @@ $primary-text: #c6cbcf;
     -8px -8px 12px 0 rgba(0, 0, 0, 0.25) inset;
 }
 
+.display {
+  width: 220px;
+  height: 160px;
+  background-color: $base;
+  border-radius: 10px;
+  opacity: 90%;
+  background-image: url("https://images.pexels.com/photos/3756943/pexels-photo-3756943.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
+  background-position: center;
+  background-size: cover;
+
+  #menu {
+    width: 60%;
+    height: 100%;
+    background-color: $base;
+    border-radius: 10px;
+
+    #screen-title {
+      padding: 16px 10px 0px;
+      letter-spacing: 1px;
+      font-weight: 500;
+      font-size: 15px;
+    }
+    ul {
+      list-style-type: none;
+      width: 90%;
+      padding-top: 0.5em;
+
+      .menu-item {
+        padding: 0.5em;
+        margin-left: 10px;
+        width: 100%;
+        margin-bottom: 2px;
+        font-size: 12px;
+        font-weight: 500;
+        display: flex;
+        justify-content: space-between;
+        cursor: pointer;
+
+        &:hover {
+          background-color: $primary-text;
+        }
+      }
+    }
+  }
+}
+
 .flex {
   display: flex;
   justify-content: center;

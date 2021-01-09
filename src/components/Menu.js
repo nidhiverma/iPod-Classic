@@ -1,28 +1,33 @@
-import React, { Component } from "react";
+import React from "react";
+import styles from "../styles/ListStyles.module.scss";
 
-export class Menu extends Component {
+class Menu extends React.Component {
   render() {
+    const { currentItem } = this.props;
     return (
-      <div id="menu">
-        <h3 id="screen-title">iPod Menu</h3>
-        <ul>
-          <li className="menu-item selected">
-            <span>Cover Flow </span>
-            <i class="fas fa-chevron-right"></i>
-          </li>
-          <li className="menu-item">
-            <span>Music </span>
-            <i class="fas fa-chevron-right"></i>
-          </li>
-          <li className="menu-item">
-            <span>Games </span>
-            <i class="fas fa-chevron-right"></i>
-          </li>
-          <li className="menu-item">
-            <span>Settings </span>
-            <i class="fas fa-chevron-right"></i>
-          </li>
-        </ul>
+      /* prettier-ignore */
+      <div>
+        <div className={styles.menuContainer} id='menuContainer'>
+            <h3 id="title" className={styles.title}>{this.props.title}</h3>
+            <ul className={styles.menuItemContainer}>
+              <li className={ currentItem === "Clock" ? styles.menuItemSelected: styles.menuItem }>   
+                  <span>Clock </span>        
+                  <i className="fas fa-chevron-right"></i>
+              </li>
+              <li className={ currentItem === "Music" ? styles.menuItemSelected: styles.menuItem }>
+                <span>Music </span>       
+                <i className="fas fa-chevron-right"></i>  
+              </li>
+              <li className={ currentItem === "Games" ? styles.menuItemSelected: styles.menuItem }>
+                  <span>Games </span>    
+                  <i className="fas fa-chevron-right"></i> 
+              </li>
+              <li className= {currentItem === "Settings" ? styles.menuItemSelected: styles.menuItem} >
+                <span>Settings </span>    
+                <i className="fas fa-chevron-right"></i>
+              </li>
+            </ul>
+        </div>
       </div>
     );
   }

@@ -3,25 +3,15 @@ import React, { Component } from "react";
 export default class Clock extends Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      time: new Date(),
+    };
   }
   componentDidMount() {
-    // let time = new Date();
-    // let month = time.getMonth();
-    // let day = time.getDay();
-    // let year = time.getFullYear();
-    // let date = time.getDate();
-    // let localTime = time.toLocaleTimeString("hi-IN");
-
     this.interval = setInterval(
       () =>
         this.setState({
-          date: Date.now(),
-          //   date: date,
-          //   month: month,
-          //   day: day,
-          //   year: year,
-          //   localTime: localTime,
+          time: Date.now(),
         }),
       1000
     );
@@ -31,7 +21,14 @@ export default class Clock extends Component {
   }
 
   render() {
-    // const { localTime, month, day, date, year } = this.state;
+    const { time } = this.state;
+    let dateTime = new Date(time);
+    let month = dateTime.getMonth();
+    let day = dateTime.getDay();
+    let year = dateTime.getFullYear();
+    let date = dateTime.getDate();
+    let localTime = dateTime.toLocaleTimeString("hi-IN");
+
     const dayOfWeek = [
       "Sunday",
       "Monday",
@@ -57,14 +54,15 @@ export default class Clock extends Component {
       "December",
     ];
 
-    // let fullDate = months[month] + " " + date + ", " + year;
+    let fullDate =
+      dayOfWeek[day] + " " + months[month] + " " + date + ", " + year;
 
     return (
       <div style={styles.container}>
         <div style={styles.time}>
-          <h1>{this.state.date}</h1>
+          <h1>{localTime.replace(localTime.substring(4, 8), " ")}</h1>
         </div>
-        <div style={styles.date}>{this.state.date}</div>
+        <div style={styles.date}>{fullDate}</div>
       </div>
     );
   }
@@ -83,6 +81,8 @@ const styles = {
       'url("https://images.pexels.com/photos/774813/pexels-photo-774813.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500")',
     backgroundPosition: "center",
     backgroundSize: "Cover",
+    backgroundColor: "black",
+    backgroundBlendMode: "overlay",
   },
   time: {
     fontSize: "20px",
@@ -90,7 +90,7 @@ const styles = {
     color: "#fff",
   },
   date: {
-    fontSize: "12px",
+    fontSize: "16px",
     fontFamily: "Roboto",
     color: "#fff",
   },

@@ -3,10 +3,10 @@ import Menu from "./Menu";
 import Music from "./Music";
 import Games from "./Games";
 import Settings from "./Settings";
-import Artists from "./Artists";
+import AudioBook from "./AudioBook";
 import Clock from "./Clock";
 import NowPlaying from "./NowPlaying";
-import styles from "../styles/Display.module.css";
+import styles from "../styles/Display.module.scss";
 
 export class Display extends Component {
   render() {
@@ -20,7 +20,7 @@ export class Display extends Component {
         {currentDisplay === "Games" ? <Games title={"Games"} /> : null}
         {currentDisplay === "Settings" ? <Settings  title={"Settings"}/> : null}
         {currentDisplay === "NowPlaying" ? <NowPlaying  title={"Now Playing"} audio={this.props.audio}/> : null}
-        {currentDisplay === "Artists" ? <Artists  title={"Artists"} /> : null}
+        {currentDisplay === "AudioBook" ? <AudioBook  title={"AudioBook"} audiobook={this.props.audiobook} /> : null}
       </div>
     );
   }

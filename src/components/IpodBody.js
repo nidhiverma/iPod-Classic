@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Display from "./Display";
 import ZingTouch from "zingtouch";
 import song from "../audio/Birds.mp3";
+import audiobookFile from "../audio/audiobook.mp3";
 
 export class IpodBody extends Component {
   constructor(props) {
@@ -10,19 +11,21 @@ export class IpodBody extends Component {
       currentItem: "Clock",
       currentDisplay: "Menu",
       audio: {},
-      isPlaying: true,
+      isSongPlaying: true,
+      isBookPlaying: false,
     };
   }
 
+  // function to control wheel rotation movement
   rotateEventHandler = () => {
     let controller = document.getElementById("controller");
     let region = new ZingTouch.Region(controller);
     region.bind(controller, "rotate", (e) => {
-      let currentAngle = Math.floor(e.detail.angle) % 60;
+      let currentAngle = Math.floor(e.detail.angle + 90) % 60;
 
       console.log("CurrentAngle: ", currentAngle);
-      const menuItems = ["Clock", "Music", "Games", "Settings"];
-      const musicItems = ["NowPlaying", "Artists"];
+      const menuItems = ["Settings", "Games", "Music", "Clock"];
+      const musicItems = ["NowPlaying", "AudioBook"];
 
       if (this.state.currentDisplay === "Menu") {
         this.setState({
@@ -36,6 +39,7 @@ export class IpodBody extends Component {
     });
   };
 
+  // function to change display on selection of new item
   changeDisplayHandler = () => {
     const { currentItem } = this.state;
     if (currentItem === "Music") {
@@ -50,15 +54,16 @@ export class IpodBody extends Component {
       });
     } else {
       this.setState({
-        currentItem: this.state.currentItem,
-        currentDisplay: this.state.currentItem,
+        currentItem: currentItem,
+        currentDisplay: currentItem,
       });
     }
   };
 
+  // function to go back one step to parent display
   backToMenu = () => {
     const { currentItem } = this.state;
-    if (currentItem === "NowPlaying" || currentItem === "Artists") {
+    if (currentItem === "NowPlaying" || currentItem === "AudioBook") {
       this.setState({
         currentItem: { currentItem },
         currentDisplay: "Music",
@@ -71,19 +76,34 @@ export class IpodBody extends Component {
     }
   };
 
+  //  function to handle song play or pause state
   onPlayPauseHandler = () => {
     if (this.state.currentDisplay === "NowPlaying") {
-      if (this.state.isPlaying === true) {
+      if (this.state.isSongPlaying === true) {
         console.log("Audio paused");
         this.state.audio.pause();
         this.setState({
-          isPlaying: false,
+          isSongPlaying: false,
         });
       } else {
         console.log("Audio played");
         this.state.audio.play();
         this.setState({
-          isPlaying: true,
+          isSongPlaying: true,
+        });
+      }
+    } else if (this.state.currentDisplay === "AudioBook") {
+      if (this.state.isBookPlaying === true) {
+        console.log("Audio paused");
+        this.state.audiobook.pause();
+        this.setState({
+          isBookPlaying: false,
+        });
+      } else {
+        console.log("Audio played");
+        this.state.audiobook.play();
+        this.setState({
+          isBookPlaying: true,
         });
       }
     }
@@ -91,87 +111,49 @@ export class IpodBody extends Component {
 
   componentDidMount = () => {
     let audioFile = document.querySelector("#audioFile");
-
+    let audiobook = document.querySelector("#audiobookFile");
     this.setState({
       audio: audioFile,
+      audiobook: audiobook,
     });
   };
 
   render() {
-    const { currentItem, currentDisplay } = this.state;
+    const { currentItem, currentDisplay, audio, audiobook } = this.state;
     return (
+      // prettier-ignore
       <div className="ipodBody" style={styles.ipodBody}>
         <audio src={song} type="audio/mp3" loop id="audioFile" />
-        <Display
-          currentItem={currentItem}
-          currentDisplay={currentDisplay}
-          audio={this.state.audio}
-        />
-        <div
-          id="controller"
-          style={styles.wheel}
-          onMouseOver={this.rotateEventHandler}
-        >
+        <audio src={audiobookFile} type="audio/mp3" loop id="audiobookFile" />
+        {/* display component */}
+        <Display currentItem={currentItem} currentDisplay={currentDisplay} audio={audio} audiobook= {audiobook}/>
+
+        {/* iPod Contoller Wheel Container */}
+        <div id="controller" style={styles.wheel} onMouseOver={this.rotateEventHandler}>
+          {/* menu button container */}
           <div style={styles.buttonContainer}>
             <div style={styles.menuButton}>
-              <i
-                onClick={this.backToMenu}
-                style={{
-                  alignSelf: "center",
-                  fontSize: "16px",
-                  color: "#A3B1C6",
-                }}
-                className="fas fa-bars"
-              ></i>
+              <p onClick={this.backToMenu} style={styles.iconStyle}>MENU</p>
             </div>
           </div>
+
+          {/* forward/backward/control button container */}
           <div style={styles.buttonContainer}>
             <div style={styles.middleButtons}>
-              <i
-                style={{
-                  alignSelf: "center",
-                  fontSize: "16px",
-                  color: "#A3B1C6",
-                }}
-                className="fas fa-fast-backward"
-              ></i>
-              <div
-                onClick={this.changeDisplayHandler}
-                style={styles.controlButton}
-              ></div>
-              <i
-                style={{
-                  alignSelf: "center",
-                  fontSize: "16px",
-                  color: "#A3B1C6",
-                }}
-                className="fas fa-fast-forward"
-              ></i>
+              <i style={styles.iconStyle} className="fas fa-fast-backward"></i>
+              <div onClick={this.changeDisplayHandler} style={styles.controlButton}></div>
+              <i style={styles.iconStyle} className="fas fa-fast-forward"></i>
             </div>
           </div>
+
+          {/* play/pause button container */}
           <div style={styles.buttonContainer}>
             <div onClick={this.onPlayPauseHandler} style={styles.playButton}>
-              <i
-                onClick={this.onPlayPauseHandler}
-                style={{
-                  alignSelf: "center",
-                  fontSize: "16px",
-                  color: "#A3B1C6",
-                  marginRight: "10px",
-                }}
-                className="fas fa-pause"
-              ></i>
-              <i
-                onClick={this.onPlayPauseHandler}
-                style={{
-                  alignSelf: "center",
-                  fontSize: "16px",
-                  color: "#A3B1C6",
-                }}
-                className="fas fa-play"
-              ></i>
+              <i onClick={this.onPlayPauseHandler} style={styles.iconStyle} className="fas fa-pause"></i> &nbsp;
+              <i onClick={this.onPlayPauseHandler} style={styles.iconStyle} className="fas fa-play"></i>
             </div>
           </div>
+
         </div>
       </div>
     );
@@ -233,5 +215,10 @@ const styles = {
     overflow: "hidden",
     color: "#fff",
     fontSize: "24px",
+  },
+  iconStyle: {
+    alignSelf: "center",
+    fontSize: "16px",
+    color: "#001a4d",
   },
 };

@@ -22,7 +22,7 @@ const styles = {
     alignItems: "center",
     justifyContent: "space-evenly",
     flexDirection: "column",
-    height: "160px",
+    height: "100%",
     paddingBottom: "20px",
     paddingTop: "20px",
     backgroundColor: "#fff",

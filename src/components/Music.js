@@ -14,8 +14,8 @@ class Music extends React.Component {
                   <span>Now Playing</span>        
                   <i className="fas fa-chevron-right"></i>
               </li>
-              <li className={ currentItem === "Artists" ? styles.menuItemSelected: styles.menuItem }>
-                <span>Artists </span>       
+              <li className={ currentItem === "AudioBook" ? styles.menuItemSelected: styles.menuItem }>
+                <span>Audio Books </span>       
                 <i className="fas fa-chevron-right"></i>  
               </li>
             </ul>

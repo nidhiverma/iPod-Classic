@@ -51,9 +51,7 @@ export class NowPlaying extends Component {
               style={{ borderTop: "rgb(189, 68, 68) 5px solid" }}
             ></div>
             <div className={styles.buttons}>
-              <i className="fas fa-fast-backward"></i>
               <i className="fas fa-pause"></i>
-              <i className="fas fa-fast-forward"></i>
             </div>
           </div>
         </div>
